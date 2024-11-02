@@ -20,6 +20,7 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import SpireHealthCheck from 'components/spire-health-check';
 import {env} from './env';
+import Topbar from './components/topbar';
 
 // to enable SPIRE health check component
 const spireHealthCheck = (env.REACT_APP_SPIRE_HEALTH_CHECK_ENABLE === 'true') ?? false; // defualt value false
@@ -29,8 +30,8 @@ function App() {
         <div>
             <Provider store={store}>
                 <Router>
-                    <div>
-                        <div className="nav-comp">
+                    <div className="app-container">
+                        <div className="sidebar">
                             <NavigationBar />
                         </div>
                         {spireHealthCheck &&
@@ -38,30 +39,33 @@ function App() {
                                 <SpireHealthCheck />
                             </div>
                         }
-                        <div className="rest-body">
-                            <SelectServer />
-                            <br />
-                            {IsManager && <br />}
-                            <Route path="/" exact component={AgentList} />
-                            <Route path="/clusters" exact component={ClusterList} />
-                            <Route path="/agents" exact component={AgentList} />
-                            <Route path="/entries" exact component={EntryList} />
-                            <RenderOnAdminRole>
-                                <Route path="/entry/create" exact component={EntryCreate} />
-                                <Route path="/agent/createjointoken" exact component={CreateJoinToken} />
-                                <Route path="/cluster/clustermanagement" exact component={ClusterManagement} />
-                            </RenderOnAdminRole>
-                            <Route path="/tornjak/serverinfo" exact component={TornjakServerInfo} />
-                            <Route path="/tornjak/dashboard" exact component={TornjakDashBoardStyled} />
-                            <Route
-                                path="/tornjak/dashboard/details/:entity"
-                                render={(props) => (<DashboardDetailsRender {...props} params={props.match.params} />)}
-                            />
-                            <Route path="/server/manage" exact component={ServerManagement} />
-                            <br /><br /><br />
-                            <svg className="endbanneroutput">
-                                <rect className="endbanneroutput"></rect>
-                            </svg>
+                        <div className="main-content">
+                            <div className="top">
+                                <Topbar/>
+                            </div>
+                            <div className="bottom">
+                                <SelectServer />
+                                <br />
+                                {IsManager && <br />}
+                                <Route path="/" exact component={AgentList} />
+                                <Route path="/clusters" exact component={ClusterList} />
+                                <Route path="/agents" exact component={AgentList} />
+                                <Route path="/entries" exact component={EntryList} />
+                                <RenderOnAdminRole>
+                                    <Route path="/entry/create" exact component={EntryCreate} />
+                                    <Route path="/agent/createjointoken" exact component={CreateJoinToken} />
+                                    <Route path="/cluster/clustermanagement" exact component={ClusterManagement} />
+                                </RenderOnAdminRole>
+                                <Route path="/tornjak/serverinfo" exact component={TornjakServerInfo} />
+                                <Route path="/tornjak/dashboard" exact component={TornjakDashBoardStyled} />
+                                <Route
+                                    path="/tornjak/dashboard/details/:entity"
+                                    render={(props) => (<DashboardDetailsRender {...props} params={props.match.params} />)}
+                                />
+                                <Route path="/server/manage" exact component={ServerManagement} />
+                                <br /><br /><br />
+                            </div>
+                        
                         </div>
                     </div>
                 </Router>
